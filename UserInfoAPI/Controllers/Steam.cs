@@ -11,9 +11,9 @@ namespace UserInfoAPI.Controllers
     [ApiController]
     public class Steam : ControllerBase
     {
-        private readonly ISteam _steam;
+        private readonly ISteam client;
 
-        public Steam(ISteam steam) => _steam = steam;
+        public Steam(ISteam steam) => client = steam;
 
 
         [HttpGet("ResolveVanityURL/{customUrl}")]
@@ -21,7 +21,7 @@ namespace UserInfoAPI.Controllers
         {
             try
             {
-                VanityUrl result = await _steam.ConvertVanityUrlToSteamID64(customUrl);
+                VanityUrl result = await client.ConvertVanityUrlToSteamID64(customUrl);
                 if(result.Response.Success == 42)
                 {
                     return NotFound(new { Error = "Url you provided wasn't found." });
@@ -40,7 +40,7 @@ namespace UserInfoAPI.Controllers
         {
             try
             {
-                var result = await _steam.GetPlayerSummary(steamID64);
+                var result = await client.GetPlayerSummary(steamID64);
                 return Ok(result.Response.Players.FirstOrDefault());
             }
             catch (Exception)
