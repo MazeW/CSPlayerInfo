@@ -31,10 +31,10 @@ jobs:
       run: dotnet build --configuration Release
 
     - name: Run tests
-      run: dotnet test UserInfoAPITests/UserInfoAPITests.csproj --configuration Release --logger "trx;LogFileName=test_results.xml"
+      run: dotnet test UserInfoAPITests/UserInfoAPITests.csproj --configuration Release --logger "trx;LogFileName=test_results.trx" --results-directory TestResults
 
     - name: Publish test results
       uses: actions/upload-artifact@v2
       with:
         name: Test Results
-        path: test_results.xml
+        path: TestResults
