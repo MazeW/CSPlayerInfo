@@ -3,10 +3,7 @@ name: Build & Test
 on:
   push:
     branches:
-      - main
-  pull_request:
-    branches:
-      - main
+      - '*'
 
 env:
   # The name of the user secret that will contain the Steam API key
