@@ -5,10 +5,6 @@ on:
     branches:
       - '*'
 
-env:
-  # The name of the user secret that will contain the Steam API key
-  SecretName: "SteamApiKey"
-
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -29,7 +25,7 @@ jobs:
       env:
         SECRET_VALUE: ${{ secrets.SteamApiKey }}
       run: |
-        echo $SECRET_VALUE | dotnet user-secrets set $SecretName
+        dotnet user-secrets set "SteamApiKey" "$SECRET_VALUE"
 
     - name: Build project
       run: dotnet build --configuration Release
