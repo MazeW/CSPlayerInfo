@@ -25,7 +25,7 @@ jobs:
       env:
         SECRET_VALUE: ${{ secrets.SteamApiKey }}
       run: |
-        dotnet user-secrets set "SteamApiKey" "$SECRET_VALUE"
+        dotnet user-secrets set "SteamApiKey" "$SECRET_VALUE" --project "UserInfoAPITests/UserInfoAPITests.csproj"
 
     - name: Build project
       run: dotnet build --configuration Release
