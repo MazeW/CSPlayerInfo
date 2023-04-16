@@ -1,0 +1,47 @@
+name: Build & Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+env:
+  # The name of the user secret that will contain the Steam API key
+  SecretName: "SteamApiKey"
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.0.x'
+
+    - name: Restore NuGet packages
+      run: dotnet restore
+
+    - name: Set user secret
+      env:
+        SECRET_VALUE: ${{ secrets.SteamApiKey }}
+      run: |
+        echo $SECRET_VALUE | dotnet user-secrets set $SecretName
+
+    - name: Build project
+      run: dotnet build --configuration Release
+
+    - name: Run tests
+      run: dotnet test UserInfoAPITests/UserInfoAPITests.csproj --configuration Release --logger "trx;LogFileName=test_results.xml"
+
+    - name: Publish test results
+      uses: actions/upload-artifact@v2
+      with:
+        name: Test Results
+        path: test_results.xml
