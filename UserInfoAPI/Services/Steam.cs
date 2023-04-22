@@ -2,6 +2,7 @@
 using Flurl.Http;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using UserInfoAPI.DTOs;
 using UserInfoAPI.Interfaces;
 using UserInfoAPI.Models.Steam;
 namespace UserInfoAPI.Services
@@ -232,6 +233,79 @@ namespace UserInfoAPI.Services
             }
 
             return steamIDLists;
+        }
+
+        public async Task<long> ConvertCustomProfileToSteamID64(string input)
+        {
+            int startIndex = input.IndexOf("/id/") + 4;
+            int endIndex = input.IndexOf("/", startIndex);
+            if (endIndex == -1)
+            {
+                endIndex = input.Length;
+            }
+            string username = input[startIndex..endIndex];
+
+            VanityUrl converted = await ConvertVanityUrlToSteamID64(username);
+            return converted.Response.Steamid;
+        }
+
+        public long ConvertProfileToSteamID64(string profileUrl)
+        {
+            int lastSlashIndex = profileUrl.LastIndexOf('/');
+
+            string steamIdSubstring = profileUrl[(lastSlashIndex + 1)..];
+
+            long steamId64 = long.Parse(steamIdSubstring);
+
+            return steamId64;
+        }
+
+        public async Task<List<long>> ConvertToSteamID64Async(SteamIDLists steamIDLists)
+        {
+            List<long> steamID64s = new();
+
+            foreach (var property in steamIDLists.GetType().GetProperties())
+            {
+                List<string> list = (List<string>)property.GetValue(steamIDLists);
+                string propertyName = property.Name;
+
+                foreach (string item in list)
+                {
+                    long steamID64 = 0;
+
+                    switch (propertyName)
+                    {
+                        case "CustomProfiles":
+                            steamID64 = await ConvertCustomProfileToSteamID64(item);
+                            break;
+                        case "CustomUrls":
+                            steamID64 = await ConvertCustomProfileToSteamID64(item);
+                            break;
+                        case "Profiles":
+                            steamID64 = ConvertProfileToSteamID64(item);
+                            break;
+                        case "SteamId2s":
+                            steamID64 = ConvertSteamID2ToSteamID64(item);
+                            break;
+                        case "SteamId3s":
+                            steamID64 = ConvertSteamID3ToSteamID64(item);
+                            break;
+                        case "SteamId64s":
+                            steamID64 = long.Parse(item);
+                            break;
+                        case "CustomStrings":
+                            steamID64 = (await ConvertVanityUrlToSteamID64(item)).Response.Steamid;
+                            break;
+                    }
+
+                    if (!steamID64s.Contains(steamID64) && steamID64 != 0) // if there is some parsing issue or something we don't wanna add 0
+                    {
+                        steamID64s.Add(steamID64);
+                    }
+                    
+                }
+            }
+            return steamID64s;
         }
 
     }

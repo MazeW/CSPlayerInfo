@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using UserInfoAPI.Models.Steam;
 using UserInfoAPI.Services;
+using UserInfoAPI.DTOs;
 
 namespace UserInfoAPITests
 {
@@ -107,7 +108,7 @@ namespace UserInfoAPITests
             int steamID64sCount = 1;
             int customStringCount = 0;
 
-            string inputString = "STEAM_0:1:91343116 [U:1:182686233]  76561198142951961 MazeWalker http://steamcommunity.com/profiles/76561198142951961 http://steamcommunity.com/id/mazewalker /id/mazewalker random text /profiles/76561198142951961 unrelated text here ";
+            string inputString = "STEAM_0:1:91343116 [U:1:182686233] 76561198142951961 MazeWalker http://steamcommunity.com/profiles/76561198142951961 http://steamcommunity.com/id/mazewalker /id/mazewalker random text /profiles/76561198142951961 unrelated text here ";
 
             // Act
             SteamIDLists result = client.ExtractSteamIDsFromString(inputString);

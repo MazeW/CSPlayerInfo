@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using UserInfoAPI.Interfaces;
-using UserInfoAPI.Services;
-using UserInfoAPI.Models;
+using UserInfoAPI.Models.Generic;
 using UserInfoAPI.Models.Steam;
+using UserInfoAPI.DTOs;
 
 namespace UserInfoAPI.Controllers
 {
@@ -22,7 +22,7 @@ namespace UserInfoAPI.Controllers
             try
             {
                 VanityUrl result = await client.ConvertVanityUrlToSteamID64(customUrl);
-                if(result.Response.Success == 42)
+                if (result.Response.Success == 42)
                 {
                     return NotFound(new { Error = "Url you provided wasn't found." });
                 }
@@ -47,6 +47,34 @@ namespace UserInfoAPI.Controllers
             {
                 return BadRequest("Failed to retrieve info");
             }
+        }
+
+        [HttpPost("ExtractSteamIDsFromString")]
+        public async Task<IActionResult> ExttractSteamIDsAsync([FromBody] ReceivePost body)
+        {
+            string input = body.Input;
+            if (string.IsNullOrEmpty(input))
+            {
+                return NotFound(JsonConvert.SerializeObject(new { Error = "Empty or invalid body provided" }, Formatting.Indented));
+            }
+
+            try
+            {
+                SteamIDLists extractedList = client.ExtractSteamIDsFromString(input);
+                ExtractIDsDTO returnList = new()
+                {
+                    ParsedList = extractedList,
+                    ConvertedList = await client.ConvertToSteamID64Async(extractedList)
+                };
+
+                return Ok(JsonConvert.SerializeObject(returnList, Formatting.Indented));
+            }
+            catch (Exception)
+            {
+                return NotFound(JsonConvert.SerializeObject(new { Error = "Invalid input or no steamid's found" }, Formatting.Indented));
+            }
+
+
         }
     }
 }

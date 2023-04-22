@@ -10,5 +10,9 @@ namespace UserInfoAPI.Interfaces
         Task<PlayerPlaytime> GetPlayerPlaytime(long steam64id, int appId);
         Task<PlayerStats> GetPlayerStats(long steam64id, int appId);
 
+        SteamIDLists ExtractSteamIDsFromString(string input);
+
+        Task<List<long>> ConvertToSteamID64Async(SteamIDLists steamIDLists);
+
     }
 }

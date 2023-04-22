@@ -9,5 +9,6 @@
         public List<string> SteamId3s { get; set; } = new();
         public List<string> SteamId64s { get; set; } = new();
         public List<string> CustomStrings { get; set; } = new();
+
     }
 }
