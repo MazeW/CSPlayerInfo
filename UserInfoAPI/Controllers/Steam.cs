@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using UserInfoAPI.DTOs;
 using UserInfoAPI.Interfaces;
 using UserInfoAPI.Models.Generic;
 using UserInfoAPI.Models.Steam;
-using UserInfoAPI.DTOs;
 
 namespace UserInfoAPI.Controllers
 {
@@ -76,5 +76,6 @@ namespace UserInfoAPI.Controllers
 
 
         }
+
     }
 }
