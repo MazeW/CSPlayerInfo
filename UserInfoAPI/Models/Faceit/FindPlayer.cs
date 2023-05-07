@@ -1,9 +1,12 @@
-﻿namespace UserInfoAPI.Models.Faceit
+﻿using Newtonsoft.Json;
+
+namespace UserInfoAPI.Models.Faceit
 {
     public class Game
     {
         public string Name { get; set; }
-        public int Skill_level { get; set; }
+        [JsonProperty("skill_level")]
+        public int SkillLevel { get; set; }
     }
 
 

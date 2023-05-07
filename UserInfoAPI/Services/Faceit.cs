@@ -4,9 +4,9 @@ using UserInfoAPI.Models.Faceit;
 
 namespace UserInfoAPI.Services
 {
-    public class Faceit
+    public static class Faceit
     {
-        private static string baseUrl = "https://api.faceit.com/";
+        private static readonly string baseUrl = "https://api.faceit.com/";
 
         public static async Task<FindPlayer> FindFaceitPlayer(long steamID64)
         {

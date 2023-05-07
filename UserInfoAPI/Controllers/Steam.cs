@@ -67,7 +67,7 @@ namespace UserInfoAPI.Controllers
                     ConvertedList = await client.ConvertToSteamID64Async(extractedList)
                 };
 
-                return Ok(JsonConvert.SerializeObject(returnList, Formatting.Indented));
+                return Ok(returnList);
             }
             catch (Exception)
             {
