@@ -16,12 +16,6 @@ namespace UserInfoAPI.DTOs
         public DateTime EndsAt { get; set; }
     }
 
-    public class Game
-    {
-        public string Name { get; set; }
-        [JsonProperty("skill_level")]
-        public int SkillLevel { get; set; }
-    }
 
     public class Player
     {
@@ -29,7 +23,7 @@ namespace UserInfoAPI.DTOs
         public long SteamID64 { get; set; }
         public string Nickname { get; set; }
         public string Status { get; set; }
-        public List<Models.Faceit.Game> Games { get; set; }
+        public List<Game> Games { get; set; }
         public string Country { get; set; }
         public bool Verified { get; set; }
         public List<Ban> Bans { get; set; }

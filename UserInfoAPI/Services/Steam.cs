@@ -246,7 +246,7 @@ namespace UserInfoAPI.Services
             string username = input[startIndex..endIndex];
 
             VanityUrl converted = await ConvertVanityUrlToSteamID64(username);
-            return converted.Response.Steamid;
+            return long.Parse(converted.Response.Steamid);
         }
 
         public long ConvertProfileToSteamID64(string profileUrl)
@@ -294,7 +294,7 @@ namespace UserInfoAPI.Services
                             steamID64 = long.Parse(item);
                             break;
                         case "CustomStrings":
-                            steamID64 = (await ConvertVanityUrlToSteamID64(item)).Response.Steamid;
+                            steamID64 = long.Parse((await ConvertVanityUrlToSteamID64(item)).Response.Steamid);
                             break;
                     }
 

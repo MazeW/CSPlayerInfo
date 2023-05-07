@@ -3,7 +3,7 @@
     public class VanityResponse
     {
         public int Success { get; set; }
-        public long Steamid { get; set; }
+        public string Steamid { get; set; }
         public string Message { get; set; }
 
     }

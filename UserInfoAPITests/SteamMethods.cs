@@ -28,7 +28,7 @@ namespace UserInfoAPITests
         {
             // Arrange
             string myVanityUrl = "mazewalker";
-            long mySteam64Id = 76561198142951961;
+            string mySteam64Id = "76561198142951961";
 
             // Act
             VanityUrl result = await client.ConvertVanityUrlToSteamID64(myVanityUrl);
