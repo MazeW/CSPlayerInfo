@@ -31,7 +31,7 @@ namespace UserInfoAPI.Controllers
             }
             catch (Exception)
             {
-                return BadRequest($"Error resolving vanity URL, make sure it is properly formatted.");
+                return BadRequest(new { Error = "Error resolving vanity URL, make sure it is properly formatted." });
             }
         }
 
@@ -45,7 +45,7 @@ namespace UserInfoAPI.Controllers
             }
             catch (Exception)
             {
-                return BadRequest("Failed to retrieve info");
+                return BadRequest(new { Error = "Failed to retrieve info" });
             }
         }
 
