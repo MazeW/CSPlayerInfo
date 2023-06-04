@@ -45,7 +45,7 @@ namespace UserInfoAPI.Controllers
             }
             catch (Exception)
             {
-                return BadRequest(new { Error = "Failed to retrieve player details" });
+                return BadRequest(new { Error = "Failed to retrieve player details." });
             }
         }
     }

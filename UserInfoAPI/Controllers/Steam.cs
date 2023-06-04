@@ -45,7 +45,7 @@ namespace UserInfoAPI.Controllers
             }
             catch (Exception)
             {
-                return BadRequest(new { Error = "Failed to retrieve info" });
+                return BadRequest(new { Error = "Failed to retrieve info." });
             }
         }
 
@@ -53,9 +53,10 @@ namespace UserInfoAPI.Controllers
         public async Task<IActionResult> ExttractSteamIDsAsync([FromBody] ReceivePost body)
         {
             string input = body.Input;
+
             if (string.IsNullOrEmpty(input))
             {
-                return NotFound(JsonConvert.SerializeObject(new { Error = "Empty or invalid body provided" }, Formatting.Indented));
+                return NotFound(new { Error = "Empty or invalid body provided." });
             }
 
             try
@@ -71,9 +72,8 @@ namespace UserInfoAPI.Controllers
             }
             catch (Exception)
             {
-                return NotFound(JsonConvert.SerializeObject(new { Error = "Invalid input or no steamid's found" }, Formatting.Indented));
+                return NotFound(new { Error = "Invalid input or no steamid's found." });
             }
-
 
         }
 
